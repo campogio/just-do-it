@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>mainMenu</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+      <ion-list style="text-align:center">
+
+      </ion-list>
+      <ion-row>
+        <ion-col>
+          <ion-button [routerLink]="['/create-task']" expand="block" color="danger">Add Task</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button [routerLink]="['/task-list']" expand="block" color="primary">Review all <br> Tasks</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+
+</ion-content>
