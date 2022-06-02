@@ -17,7 +17,19 @@
           <ion-button [routerLink]="['/task-list']" expand="block" color="primary">Review all <br> Tasks</ion-button>
         </ion-col>
       </ion-row>
-
     </ion-grid>
+
+  <ion-slides pager="true" [options]="slideOpts" style="height: 80%">
+    <ion-slide>
+      <h1 style="width: 80%">Task 1</h1>
+      <ion-checkbox></ion-checkbox>
+    </ion-slide>
+    <ion-slide>
+      <h1>Task 2</h1>
+    </ion-slide>
+    <ion-slide>
+      <h1>Task 3</h1>
+    </ion-slide>
+  </ion-slides>
 
 </ion-content>

@@ -1,9 +1,31 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>taskList</ion-title>
+    <ion-item lines="none">
+      <ion-label>
+        Task List
+        <p>{{today | date:'fullDate'}}</p>
+      </ion-label>
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen="true">
+
+  <ion-card *ngFor="let item of tasks" style="flex: auto">
+    <ion-card-header>
+      <ion-card-subtitle>
+        {{item.location}}
+        <ion-checkbox [(ngModel)]="item.done" style="float: right"></ion-checkbox>
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-label style="flex: auto">{{item.desc}}</ion-label>
+    </ion-card-content>
+
+    <ion-card-content>
+      <ion-label *ngIf="item.dueDate">Due {{item.dueDate | date:'fullDate'}}</ion-label>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

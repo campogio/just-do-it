@@ -6,4 +6,34 @@
 
 <ion-content>
 
+  <ion-card>
+    <ion-item>
+      <ion-checkbox [(ngModel)]="isTaskList" ></ion-checkbox>
+      <ion-label class="center"> Make into List</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" placeholder="Name" [(ngModel)]="name"></ion-input>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <ion-item>
+      <ion-checkbox [(ngModel)]="isTimeSensitive" ></ion-checkbox>
+      <ion-label class="center"> Add Deadline</ion-label>
+    </ion-item>
+  </ion-card>
+  <ion-datetime [(ngModel)]="time" [disabled]="this.isTaskList || !this.isTimeSensitive"></ion-datetime>
+  <ion-card>
+    <ion-item>
+      <ion-checkbox [(ngModel)]="isLocationSensitive"></ion-checkbox>
+      <ion-label class="center"> Add Location</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="location" [disabled]="this.isTaskList || !this.isLocationSensitive" type="text" placeholder="Location"></ion-input>
+    </ion-item>
+  </ion-card>
+
+
+
+  <ion-button [routerLink]="['/task-list']" expand="block" color="primary" (click)="create()">Create Task</ion-button>
+
 </ion-content>

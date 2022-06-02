@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "",
-"sources": [],
+"mappings": "AAAA,OAAQ;EACN,OAAO,EAAE,IAAI;EACb,eAAe,EAAE,MAAM;EACvB,aAAa,EAAE,MAAM;EACrB,WAAW,EAAE,MAAM;EACnB,KAAK,EAAE,GAAG",
+"sources": ["create-task.page.scss"],
 "names": [],
 "file": "create-task.page.css"
 }
