@@ -15,12 +15,12 @@
     <ion-card-header>
       <ion-card-subtitle>
         {{item.location}}
-        <ion-checkbox [(ngModel)]="item.done" style="float: right"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="item.isDone" style="float: right"></ion-checkbox>
       </ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
-      <ion-label style="flex: auto">{{item.desc}}</ion-label>
+      <ion-label style="flex: auto">{{item.description}}</ion-label>
     </ion-card-content>
 
     <ion-card-content>

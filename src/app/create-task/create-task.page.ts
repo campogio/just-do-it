@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {StorageService} from '../StorageService';
+import { DbService, Task } from '../services/db.service';
 
 @Component({
   selector: 'app-create-task',
   templateUrl: './create-task.page.html',
   styleUrls: ['./create-task.page.scss'],
-  providers:[StorageService],
 
 })
 export class CreateTaskPage implements OnInit {
@@ -19,15 +18,12 @@ export class CreateTaskPage implements OnInit {
 
   private name: string;
 
-  private _storage: StorageService | null = null;
 
+  constructor(private dbService: DbService) { }
 
-  constructor(private storage: StorageService) {
-    this._storage= storage;
-  }
 
   ngOnInit() {
-    this._storage.init();
+    this.dbService.getAllTasks();
   }
 
   _ionchange($event: any) {
@@ -38,12 +34,23 @@ export class CreateTaskPage implements OnInit {
 
     }else {
 
-      let task = {desc: 'Test desc,Lorem Ipsum',
-        dueDate: '2023-11-12',
-        location: 'Hogwarts',
-        done: false,};
+      const task = {} as Task;
 
-      this._storage.addTask(task);
+      task.description = this.name;
+      if(this.isTimeSensitive){
+        task.dueDate = this.time;
+      }else{
+        task.dueDate = '';
+      }
+
+      if(this.isLocationSensitive){
+        task.location = this.location;
+      }else {
+        task.location = '';
+      }
+      task.isDone = false;
+
+      this.dbService.addTask(task);
     }
   }
 }
