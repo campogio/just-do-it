@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { DbService, Task,TaskList,UserTasks } from '../services/db.service';
+import {LocalNotifications} from "@ionic-native/local-notifications/ngx";
 
 
 @Component({
@@ -30,11 +31,20 @@ export class TaskListPage implements OnInit {
 
   today: number = Date.now();
 
-  constructor(private dbService: DbService) { }
+  constructor(private dbService: DbService, private localNotif: LocalNotifications) { }
 
+
+  simpleNotif(){
+    this.localNotif.schedule({
+      id: 1,
+      text: 'Single Local Notification',
+      data: { secret: 'secret' }
+    });
+  }
 
   ionViewWillEnter(){
     this.dbService.getAllTasks().then(data => this.userData = data);
+    this.simpleNotif();
   }
 
   deleteToDo(id: number) {
