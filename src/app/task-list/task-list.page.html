@@ -39,7 +39,7 @@
     <ion-card-header>
       <ion-card-subtitle>
         <div style="float: right">
-          <ion-button style="margin-right: 10px">+</ion-button>
+          <ion-button style="margin-right: 10px" [routerLink]="['/','add-task-to-list',list.id]">+</ion-button>
           <ion-button *ngIf="list.tasks === undefined || list.tasks.length === 0 " style="margin-right: 10px" (click)="removeList(list)">X</ion-button>
           <ion-checkbox [(ngModel)]="list.isAllDone"></ion-checkbox>
         </div>

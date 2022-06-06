@@ -67,7 +67,7 @@ export class DbService {
   }
 
   private getTasksForList(id: number): Task[]{
-    let tasks: Task[];
+    let tasks: Task[] = [];
 
     this.dbInstance.executeSql('select * from task WHERE taskList_id='+id, []).then(
       (res) => {
@@ -105,15 +105,11 @@ export class DbService {
   private getAllRecords(): UserTasks {
     const todos: Task[] = [];
     const lists: TaskList[] = this.getAllTaskLists();
-    this.dbInstance.executeSql('select * from task', []).then(
+    this.dbInstance.executeSql('select * from task WHERE taskList_id IS NULL', []).then(
       (res) => {
         for(let x=0; x<res.rows.length; x++)
           {
-            if(res.rows.item(x).taskListid === undefined){
               todos.push(res.rows.item(x));
-            }else {
-
-            }
           }
       }
     ).catch(e => {
@@ -142,6 +138,19 @@ export class DbService {
     }
     this.dbInstance.executeSql('insert into task(description, isDone,dueDate,location) VALUES(?, ?,?,?)',
       [task.description, 0,task.dueDate,task.location])
+      .catch(e => console.log(e));
+    return this.getAllRecords();
+  }
+
+  async addTaskToList(task: Task) {
+    if(task.location === undefined){
+      task.location = '';
+    }
+    if(task.dueDate === undefined){
+      task.dueDate = '';
+    }
+    this.dbInstance.executeSql('insert into task(description, isDone,dueDate,location,taskList_id) VALUES(?, ?,?,?,?)',
+      [task.description, 0,task.dueDate,task.location,task.taskListid])
       .catch(e => console.log(e));
     return this.getAllRecords();
   }

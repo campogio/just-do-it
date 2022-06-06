@@ -15,7 +15,7 @@ export class TaskListPage implements OnInit {
   taskLists: []};
 
   taskLists: TaskList[]= [{
-    id:1,
+    id:420,
     description: 'Hello',
     isAllDone: false,
     tasks: [{id: 5,
@@ -33,8 +33,8 @@ export class TaskListPage implements OnInit {
   constructor(private dbService: DbService) { }
 
 
-  ionViewDidEnter() {
-
+  ionViewWillEnter(){
+    this.dbService.getAllTasks().then(data => this.userData = data);
   }
 
   deleteToDo(id: number) {
