@@ -11,11 +11,15 @@
 
 <ion-content fullscreen="true">
 
-  <ion-card *ngFor="let item of tasks" style="flex: auto">
-    <ion-card-header>
+  <ion-card *ngFor="let item of userData.tasks" id='item{{item.id}}' style="flex: auto">
+    <ion-card-header >
       <ion-card-subtitle>
         {{item.location}}
-        <ion-checkbox [(ngModel)]="item.isDone" style="float: right"></ion-checkbox>
+        <div style="float: right">
+          <ion-button style="margin-right: 20px" (click)="remove(item)">X</ion-button>
+          <ion-checkbox [(ngModel)]="item.isDone" (ionChange)="update(item)"></ion-checkbox>
+        </div>
+
       </ion-card-subtitle>
     </ion-card-header>
 
@@ -24,8 +28,49 @@
     </ion-card-content>
 
     <ion-card-content>
-      <ion-label *ngIf="item.dueDate">Due {{item.dueDate | date:'fullDate'}}</ion-label>
+      <ion-label *ngIf="item.dueDate">Due {{item.dueDate | date:'medium'}}</ion-label>
     </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngFor="let list of userData.taskLists" id="{{list.id}}">
+    <ion-card-title>
+
+    </ion-card-title>
+    <ion-card-header>
+      <ion-card-subtitle>
+        <div style="float: right">
+          <ion-button style="margin-right: 10px">+</ion-button>
+          <ion-button *ngIf="list.tasks === undefined || list.tasks.length === 0 " style="margin-right: 10px" (click)="removeList(list)">X</ion-button>
+          <ion-checkbox [(ngModel)]="list.isAllDone"></ion-checkbox>
+        </div>
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-card>
+        {{list.description}}
+      </ion-card>
+      <ion-card *ngFor="let item of list.tasks">
+        <ion-card-header >
+          <ion-card-subtitle>
+            {{item.location}}
+            <div style="float: right">
+              <ion-button style="margin-right: 20px" (click)="remove(item)">X</ion-button>
+              <ion-checkbox [(ngModel)]="item.isDone" (ionChange)="update(item)"></ion-checkbox>
+            </div>
+
+          </ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-label style="flex: auto">{{item.description}}</ion-label>
+        </ion-card-content>
+
+        <ion-card-content>
+          <ion-label *ngIf="item.dueDate">Due {{item.dueDate | date:'medium'}}</ion-label>
+        </ion-card-content>
+      </ion-card>
+    </ion-card-content>
+
   </ion-card>
 
 </ion-content>

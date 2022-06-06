@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DbService, Task } from '../services/db.service';
+import { DbService, Task,TaskList } from '../services/db.service';
 
 @Component({
   selector: 'app-create-task',
@@ -31,6 +31,12 @@ export class CreateTaskPage implements OnInit {
 
   create() {
     if(this.isTaskList){
+
+      const list = {} as TaskList;
+
+      list.description = this.name;
+
+      this.dbService.addTaskList(list);
 
     }else {
 

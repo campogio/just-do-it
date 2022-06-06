@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { DbService, Task } from '../services/db.service';
+import { DbService, Task,TaskList,UserTasks } from '../services/db.service';
 
 
 @Component({
@@ -9,8 +9,24 @@ import { DbService, Task } from '../services/db.service';
 })
 export class TaskListPage implements OnInit {
 
+  public press = 0;
 
-  tasks: Task[];
+  userData: UserTasks= {tasks: [],
+  taskLists: []};
+
+  taskLists: TaskList[]= [{
+    id:1,
+    description: 'Hello',
+    isAllDone: false,
+    tasks: [{id: 5,
+      isDone: true,
+      taskListid: 1,
+      dueDate: '2022-10-10',
+      location: 'My Home',
+      description: 'This Task Desc',
+      userid: undefined,}],
+    userid:0,
+  }];
 
   today: number = Date.now();
 
@@ -18,16 +34,36 @@ export class TaskListPage implements OnInit {
 
 
   ionViewDidEnter() {
-    this.dbService.getAllTasks().then(data => this.tasks = data);
+
   }
 
   deleteToDo(id: number) {
-    this.dbService.deleteTask(id)
-      .then(data => this.tasks = data);
+    this.dbService.deleteTask(id).then(data => this.userData = data);
   }
+
+  deleteList(id: number) {
+    this.dbService.deleteTaskList(id).then(data => this.userData = data);
+  }
+
 
   ngOnInit() {
-
+    console.log('TestLog');
+    this.dbService.getAllTasks().then(data => this.userData = data);
   }
 
+  remove(item: Task) {
+  this.deleteToDo(item.id);
+  }
+
+  update(item: Task) {
+    if (item.isDone){
+      this.dbService.updateTask(item.id,1);
+    }else{
+      this.dbService.updateTask(item.id,0);
+    }
+  }
+
+  removeList(list: TaskList) {
+    this.deleteList(list.id);
+  }
 }
