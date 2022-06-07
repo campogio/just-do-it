@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { DbService, Task,TaskList,UserTasks } from '../services/db.service';
-import {LocalNotifications} from "@ionic-native/local-notifications/ngx";
+import {LocalNotifications} from '@ionic-native/local-notifications/ngx';
 
 
 @Component({
@@ -33,18 +33,51 @@ export class TaskListPage implements OnInit {
 
   constructor(private dbService: DbService, private localNotif: LocalNotifications) { }
 
-
-  simpleNotif(){
-    this.localNotif.schedule({
-      id: 1,
-      text: 'Single Local Notification',
-      data: { secret: 'secret' }
-    });
+  ionViewCanEnter(){
+    this.dbService.getAllTasks().then(data => this.userData = data);
   }
 
-  ionViewWillEnter(){
+  ionViewDidEnter(){
     this.dbService.getAllTasks().then(data => this.userData = data);
-    this.simpleNotif();
+    this.scheduleTasks(this.userData);
+  }
+
+  scheduleTasks(user: UserTasks) {
+
+    this.localNotif.schedule({
+      id: 1,
+      text: 'Tasks: '+user.tasks.length,
+      data: {secret: 'secret'}
+    });
+
+
+
+    for (const task of this.userData.tasks) {
+      if (task.dueDate !== '') {
+        this.schedule(task);
+      }
+    }
+
+    for (const list of this.userData.taskLists) {
+      for (const task of list.tasks) {
+        if (task.dueDate !== '') {
+          this.schedule(task);
+        }
+      }
+    }
+
+  }
+
+  schedule(task: Task){
+
+    this.localNotif.schedule({
+      id: task.id,
+      title: 'JustDoIt Reminder',
+      text: task.description,
+      trigger: {at: new Date(task.dueDate)},
+      data: { secret: 'secret' }
+    });
+
   }
 
   deleteToDo(id: number) {
@@ -57,7 +90,6 @@ export class TaskListPage implements OnInit {
 
 
   ngOnInit() {
-    console.log('TestLog');
     this.dbService.getAllTasks().then(data => this.userData = data);
   }
 
